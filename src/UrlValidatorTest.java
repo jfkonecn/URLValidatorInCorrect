@@ -242,11 +242,6 @@ public class UrlValidatorTest extends TestCase {
    private ResultPair[] host = {
            new ResultPair("192.168.1.1", true),
            new ResultPair("www.google.com", true),
-           new ResultPair("ftp", true),
-           new ResultPair("mailto", true),
-           new ResultPair("file", true),
-           new ResultPair("data", true),
-           new ResultPair("irc", true),
            new ResultPair("helloWorld", false),
            new ResultPair("&;", false),
            new ResultPair("youShallNotPass", false)

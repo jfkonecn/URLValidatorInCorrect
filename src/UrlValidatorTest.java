@@ -248,5 +248,22 @@ public class UrlValidatorTest extends TestCase {
            new ResultPair("youShallNotPass", false)
    };
 
+   private ResultPair[] port = {
+           new ResultPair("", true)
+   };
+
+    private ResultPair[] path = {
+            new ResultPair("", true)
+    };
+
+    private ResultPair[] query = {
+            new ResultPair("", true)
+    };
+
+
+    private ResultPair[] fragment = {
+            new ResultPair("", true)
+    };
+
 
 }

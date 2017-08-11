@@ -225,15 +225,18 @@ public class UrlValidatorTest extends TestCase {
 
 
    private ResultPair[] scheme = {
-           new ResultPair("http", true),
-           new ResultPair("https", true),
-           new ResultPair("ftp", true),
-           new ResultPair("mailto", true),
-           new ResultPair("file", true),
-           new ResultPair("data", true),
-           new ResultPair("irc", true),
-           new ResultPair("helloWorld", false),
-           new ResultPair("youShallNotPass", false)
+           new ResultPair("http://", true),
+           new ResultPair("https://", true),
+           new ResultPair("ftp://", true),
+           new ResultPair("mailto://", true),
+           new ResultPair("file://", true),
+           new ResultPair("data://", true),
+           new ResultPair("irc://", true),
+           new ResultPair("helloWorld://", false),
+           new ResultPair("youShallNotPass://", false),
+           new ResultPair("http:/", false),
+           new ResultPair("http//", false),
+           new ResultPair("http", false)
     };
 
    private ResultPair[] host = {
@@ -245,24 +248,45 @@ public class UrlValidatorTest extends TestCase {
            new ResultPair("data", true),
            new ResultPair("irc", true),
            new ResultPair("helloWorld", false),
+           new ResultPair("&;", false),
            new ResultPair("youShallNotPass", false)
    };
 
    private ResultPair[] port = {
-           new ResultPair("", true)
+           new ResultPair("", true),
+           new ResultPair(":2000", true),
+           new ResultPair(":", false),
+           new ResultPair(":NotAPort", false),
+           new ResultPair("ReallyNotAPort", false)
    };
 
     private ResultPair[] path = {
-            new ResultPair("", true)
+            new ResultPair("", true),
+            new ResultPair("/a", true),
+            new ResultPair("/a/b/c/d", true),
+            new ResultPair("/1000", true),
+            new ResultPair("/a-b-c-d", true),
+            new ResultPair("/a_b_c_d", true),
+            new ResultPair("//a", false),
+            new ResultPair("/a b c d/a", false),
+            new ResultPair("/&", false),
+            new ResultPair("/;", false)
     };
 
     private ResultPair[] query = {
-            new ResultPair("", true)
+            new ResultPair("?q=test", true),
+            new ResultPair("?q=test&para=78", true),
+            new ResultPair("?q=hello+world&para=78", true),
+            new ResultPair("?q=test&para=78", true),
+            new ResultPair("?a b c d", false)
     };
 
 
     private ResultPair[] fragment = {
-            new ResultPair("", true)
+            new ResultPair("", true),
+            new ResultPair("#test", true),
+            new ResultPair("#a b c d", false),
+            new ResultPair("#&&", false)
     };
 
 

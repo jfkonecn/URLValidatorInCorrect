@@ -39,8 +39,8 @@ public class UrlValidatorTest extends TestCase {
 
         UrlValidatorTest fct = new UrlValidatorTest("url test");
         //fct.testManualTest();
-        fct.testAnyOtherUnitTest();
-        fct.testUrlCombinations();
+        fct.partitionTest();
+        //fct.testUrlCombinations();
     }
 
 
@@ -49,7 +49,9 @@ public class UrlValidatorTest extends TestCase {
    }
 
 
-/*
+    /*********************************************************************
+     * Performs hard manual tests on the url validator to make
+     */
    public void testManualTest()
    {
        // setup urlValidator
@@ -155,6 +157,7 @@ public class UrlValidatorTest extends TestCase {
        System.out.printf("Tests Passed: %d     Tests Failed: %d\n", count, testcount-count);
 
 
+        /*
        while(true)
        {
             //get user input
@@ -182,14 +185,18 @@ public class UrlValidatorTest extends TestCase {
            }
 
        }
-
+        */
 
 
 
    }
-*/
 
 
+    /**********************************
+     * Let user know if a test failed
+     * @param i
+     * @param j test number
+     */
     private void report(int i, int j){
         if(i<j){
             System.out.printf("Test %d Failed \n", j);
@@ -197,28 +204,82 @@ public class UrlValidatorTest extends TestCase {
     }
 
 
-   public void testYourFirstPartition()
-   {
+    private void partitionTest()
+    {
 
-   }
+        // BLOCK 1: Valid Url
+        partitionReport("Valid Url",
+                "http://www.google.com:2000/a/b_c?d=50+me&e=hello#test_me",
+                true);
 
-   public void testYourSecondPartition(){
+        partitionReport("Valid Url No Port",
+                "http://www.google.com/a/bc",
+                true);
 
-   }
+        // BLOCK 2: Invalid Scheme
+        partitionReport("Invalid Scheme",
+                "htp://www.google.com:2000/a/b_c?d=50+me&e=hello#test_me",
+                false);
 
 
-   public void testIsValid()
-   {
-	   for(int i = 0;i<10000;i++)
-	   {
+        // BLOCK 3: Invalid Host
+        partitionReport("Invalid Host",
+                "http://&&&:2000/a/b_c?d=50+me&e=hello#test_me",
+                false);
 
-	   }
-   }
 
-   public void testAnyOtherUnitTest()
-   {
+        // BLOCK 4: Invalid Port
+        partitionReport("Invalid Port",
+                "http://www.google.com:port/a/b_c?d=50+me&e=hello#test_me",
+                false);
 
-   }
+        // BLOCK 5: Invalid Path
+        partitionReport("Invalid Path",
+                "http://www.google.com:2000/;//b_c?d=50+me&e=hello#test_me",
+                false);
+
+        // BLOCK 6: Invalid Query
+        partitionReport("Invalid Query",
+                "http://www.google.com:2000/a/b_c?&;#test_me",
+                false);
+
+        // BLOCK 7: Invalid Fragment
+        partitionReport("Invalid Fragment",
+                "http://www.google.com:2000/a/b_c?d=50+me&e=hello#;;",
+                false);
+
+    }
+
+    /**
+     * Report the results of a partition test
+     * @param testName the title of the test
+     * @param testUrl the url which was tested
+     * @param expectedOutput true if the url is supposed to be valid
+     */
+    private void partitionReport(String testName,
+                                 String testUrl,
+                                 boolean expectedOutput)
+    {
+        UrlValidator urlVal = new UrlValidator();
+        boolean actualOutput = urlVal.isValid(testUrl);
+
+        if(expectedOutput != actualOutput)
+        {
+            if(expectedOutput == true)
+            {
+                System.out.println(testName + ": FAIL, expected: PASS - " + testUrl);
+            }
+            else
+            {
+                System.out.println(testName + ": PASS, expected: FAIL" + testUrl);
+            }
+        }
+        else
+        {
+            System.out.println(testName + ": NO PROBLEMS " + testUrl);
+        }
+    }
+
 
     /**
      * Create set of tests by taking the testUrlXXX arrays and

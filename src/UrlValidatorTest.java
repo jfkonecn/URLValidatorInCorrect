@@ -57,6 +57,102 @@ public class UrlValidatorTest extends TestCase {
 
        System.out.println("Beginning Manual Testing");
 
+       int count = 0;
+       int testcount = 0;
+
+       if(urlVal.isValid("http://www.amazon.com")){
+           count++;
+       }
+       testcount++;
+       report(count,testcount);
+       if(urlVal.isValid("https://www.amazon.com")){
+           count++;
+       }
+       testcount++;
+       report(count,testcount);
+       if(urlVal.isValid("ftp://www.amazon.com")){
+           count++;
+       }
+       testcount++;
+       report(count,testcount);
+       if(urlVal.isValid("h3t://www.amazon.com")){
+           count++;
+       }
+       testcount++;
+       report(count,testcount);
+       if(!urlVal.isValid("http:/www.amazon.com")){
+           count++;
+       }
+       testcount++;
+       report(count,testcount);
+       if(!urlVal.isValid("http://www.amazon")){
+           count++;
+       }
+       testcount++;
+       report(count,testcount);
+       if(!urlVal.isValid("http://www.amazon:85")){
+           count++;
+       }
+       testcount++;
+       report(count,testcount);
+       if(!urlVal.isValid("http://www.amazon.com:a")){
+           count++;
+       }
+       testcount++;
+       report(count,testcount);
+       if(!urlVal.isValid("http://www.amazon.com:86v")){
+           count++;
+       }
+       testcount++;
+       report(count,testcount);
+       if(urlVal.isValid("http://www.amazon.com:55")){
+           count++;
+       }
+       testcount++;
+       report(count,testcount);
+       if(urlVal.isValid("http://amazon.com")){
+           count++;
+       }
+       testcount++;
+       report(count,testcount);
+       if(urlVal.isValid("http://ww.amazon.com")){
+           count++;
+       }
+       testcount++;
+       report(count,testcount);
+       if(!urlVal.isValid("http://www.amazon_.com")){
+           count++;
+       }
+       testcount++;
+       report(count,testcount);
+       if(!urlVal.isValid("http//www.amazon.com")){
+           count++;
+       }
+       testcount++;
+       report(count,testcount);
+       if(!urlVal.isValid("http:/www.amazon.com")){
+           count++;
+       }
+       testcount++;
+       report(count,testcount);
+       if(!urlVal.isValid("http://256.256.256.256:80")){
+           count++;
+       }
+       testcount++;
+       if(!urlVal.isValid("http://1.2.3.4.5:80")){
+           count++;
+       }
+       testcount++;
+       report(count,testcount);
+       if(urlVal.isValid("http://255.255.255.255:80")){
+           count++;
+       }
+       testcount++;
+
+
+       System.out.printf("Tests Passed: %d     Tests Failed: %d\n", count, testcount-count);
+
+
        while(true)
        {
             //get user input
@@ -89,6 +185,13 @@ public class UrlValidatorTest extends TestCase {
 
 
    }
+
+
+    private void report(int i, int j){
+        if(i<j){
+            System.out.printf("Test %d Failed \n", j);
+        }
+    }
 
 
    public void testYourFirstPartition()

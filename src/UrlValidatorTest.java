@@ -216,15 +216,60 @@ public class UrlValidatorTest extends TestCase {
    {
 
    }
-   /**
-    * Create set of tests by taking the testUrlXXX arrays and
-    * running through all possible permutations of their combinations.
-    *
-    * @param testObjects Used to create a url.
-    */
 
+    /**
+     * Create set of tests by taking the testUrlXXX arrays and
+     * running through all possible permutations of their combinations.
+     *
+     */
+    public void testUrlCombinations(boolean showPassing, boolean showFailing) {
 
-   private ResultPair[] scheme = {
+        // Create validator
+        UrlValidator urlVal = new UrlValidator();
+
+        // Get total number of url combinations to be tested
+        int totalUrlCombinations = 1;
+        int totalPassingUrls = 0;
+
+        for (ResultPair[] segments : testSegments) {
+            totalUrlCombinations *= segments.length;
+        }
+
+        // Append scheme
+        for (ResultPair scheme : schemes) {
+            for (ResultPair host : hosts) {
+                for (ResultPair port : ports) {
+                    for (ResultPair path : paths) {
+                        for (ResultPair query : querys) {
+                            for (ResultPair fragment : fragments) {
+
+                                // Create URL
+                                String testUrl =
+                                        scheme.item + host.item + port.item + path.item + query.item + fragment.item;
+
+                                // Get whether URL is or is not valid
+                                boolean expectedOutput =
+                                        scheme.valid && host.valid && port.valid && path.valid && query.valid && fragment.valid;
+
+                                // Get result of isValid function
+                                boolean actualOutput = urlVal.isValid(testUrl);
+
+                                if (expectedOutput != actualOutput) {
+                                    if (expectedOutput)
+                                        System.out.println("isValid: FAIL, expected: PASS - " + testUrl);
+                                    else
+                                        System.out.println("isValid: PASS, expected: FAIL - " + testUrl);
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+   private ResultPair[] schemes = {
            new ResultPair("http://", true),
            new ResultPair("https://", true),
            new ResultPair("ftp://", true),
@@ -239,7 +284,7 @@ public class UrlValidatorTest extends TestCase {
            new ResultPair("http", false)
     };
 
-   private ResultPair[] host = {
+   private ResultPair[] hosts = {
            new ResultPair("192.168.1.1", true),
            new ResultPair("www.google.com", true),
            new ResultPair("helloWorld", false),
@@ -247,7 +292,7 @@ public class UrlValidatorTest extends TestCase {
            new ResultPair("youShallNotPass", false)
    };
 
-   private ResultPair[] port = {
+   private ResultPair[] ports = {
            new ResultPair("", true),
            new ResultPair(":2000", true),
            new ResultPair(":", false),
@@ -255,7 +300,7 @@ public class UrlValidatorTest extends TestCase {
            new ResultPair("ReallyNotAPort", false)
    };
 
-    private ResultPair[] path = {
+    private ResultPair[] paths = {
             new ResultPair("", true),
             new ResultPair("/a", true),
             new ResultPair("/a/b/c/d", true),
@@ -268,7 +313,7 @@ public class UrlValidatorTest extends TestCase {
             new ResultPair("/;", false)
     };
 
-    private ResultPair[] query = {
+    private ResultPair[] querys = {
             new ResultPair("?q=test", true),
             new ResultPair("?q=test&para=78", true),
             new ResultPair("?q=hello+world&para=78", true),
@@ -277,12 +322,12 @@ public class UrlValidatorTest extends TestCase {
     };
 
 
-    private ResultPair[] fragment = {
+    private ResultPair[] fragments = {
             new ResultPair("", true),
             new ResultPair("#test", true),
             new ResultPair("#a b c d", false),
             new ResultPair("#&&", false)
     };
 
-
+    private ResultPair[][] testSegments = {schemes, hosts, ports, paths, querys, fragments};
 }

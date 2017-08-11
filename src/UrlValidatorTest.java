@@ -39,6 +39,8 @@ public class UrlValidatorTest extends TestCase {
 
         UrlValidatorTest fct = new UrlValidatorTest("url test");
         fct.testManualTest();
+        fct.testAnyOtherUnitTest();
+        fct.testUrlCombinations(true,true);
     }
 
 
@@ -271,6 +273,7 @@ public class UrlValidatorTest extends TestCase {
 
    private ResultPair[] schemes = {
            new ResultPair("http://", true),
+           new ResultPair("htp://", false),
            new ResultPair("https://", true),
            new ResultPair("ftp://", true),
            new ResultPair("mailto://", true),

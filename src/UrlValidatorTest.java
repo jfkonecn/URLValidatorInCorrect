@@ -38,7 +38,7 @@ public class UrlValidatorTest extends TestCase {
     public static void main(String[] argv) {
 
         UrlValidatorTest fct = new UrlValidatorTest("url test");
-        fct.testManualTest();
+        //fct.testManualTest();
         fct.testAnyOtherUnitTest();
         fct.testUrlCombinations();
     }
@@ -49,7 +49,7 @@ public class UrlValidatorTest extends TestCase {
    }
 
 
-
+/*
    public void testManualTest()
    {
        // setup urlValidator
@@ -187,6 +187,7 @@ public class UrlValidatorTest extends TestCase {
 
 
    }
+*/
 
 
     private void report(int i, int j){
@@ -268,7 +269,15 @@ public class UrlValidatorTest extends TestCase {
                                     }
                                     else {
                                         totalPassWhenFailExpected++;
-                                        System.out.println("isValid: PASS, expected: FAIL - " + testUrl);
+                                        String failSegments = "";
+                                        if (!scheme.valid)   failSegments += "scheme, ";
+                                        if (!host.valid)     failSegments += "host, ";
+                                        if (!port.valid)     failSegments += "port, ";
+                                        if (!path.valid)     failSegments += "path, ";
+                                        if (!query.valid)    failSegments += "query, ";
+                                        if (!fragment.valid) failSegments += "fragment, ";
+                                        failSegments = failSegments.substring(0, failSegments.length() - 2);
+                                        System.out.println("isValid: PASS, expected: FAIL (from " + failSegments + ") - " + testUrl);
                                     }
                                 }
                             }
@@ -330,6 +339,7 @@ public class UrlValidatorTest extends TestCase {
     };
 
     private ResultPair[] querys = {
+            new ResultPair("", true),
             new ResultPair("?q=test", true),
             new ResultPair("?q=test&para=78", true),
             new ResultPair("?q=hello+world&para=78", true),

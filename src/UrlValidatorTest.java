@@ -38,7 +38,8 @@ public class UrlValidatorTest extends TestCase {
     public static void main(String[] argv) {
 
         UrlValidatorTest fct = new UrlValidatorTest("url test");
-        fct.testManualTest();
+        //fct.testManualTest();
+        fct.testUrlCombinations();
     }
 
 
@@ -46,8 +47,7 @@ public class UrlValidatorTest extends TestCase {
       super(testName);
    }
 
-
-
+    
    public void testManualTest()
    {
        // setup urlValidator
@@ -222,14 +222,18 @@ public class UrlValidatorTest extends TestCase {
      * running through all possible permutations of their combinations.
      *
      */
-    public void testUrlCombinations(boolean showPassing, boolean showFailing) {
+    public void testUrlCombinations() {
+
+        System.out.println("Beginning Testing of All Combinations\n");
 
         // Create validator
         UrlValidator urlVal = new UrlValidator();
 
         // Get total number of url combinations to be tested
         int totalUrlCombinations = 1;
-        int totalPassingUrls = 0;
+        int totalIncorrectOutputs = 0;
+        int totalPassWhenFailExpected = 0;
+        int totalFailWhenPassExpected = 0;
 
         for (ResultPair[] segments : testSegments) {
             totalUrlCombinations *= segments.length;
@@ -255,18 +259,27 @@ public class UrlValidatorTest extends TestCase {
                                 boolean actualOutput = urlVal.isValid(testUrl);
 
                                 if (expectedOutput != actualOutput) {
-                                    if (expectedOutput)
+                                    totalIncorrectOutputs++;
+                                    if (expectedOutput) {
+                                        totalFailWhenPassExpected++;
                                         System.out.println("isValid: FAIL, expected: PASS - " + testUrl);
-                                    else
+                                    }
+                                    else {
+                                        totalPassWhenFailExpected++;
                                         System.out.println("isValid: PASS, expected: FAIL - " + testUrl);
+                                    }
                                 }
-
                             }
                         }
                     }
                 }
             }
         }
+
+        System.out.println("Combination Test Results:\n");
+        System.out.println(totalIncorrectOutputs + " / " + totalUrlCombinations + " tests did not return the expected output.");
+        System.out.println(totalFailWhenPassExpected + " tests failed when they should have passed.");
+        System.out.println(totalPassWhenFailExpected + " tests passed when they should have failed.");
     }
 
    private ResultPair[] schemes = {

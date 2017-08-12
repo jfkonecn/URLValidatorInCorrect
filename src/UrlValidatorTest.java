@@ -224,16 +224,16 @@ public class UrlValidatorTest extends TestCase {
                 "http://www.google.com:2000",
                 true);
 
-        partitionReport("Valid Url with Scheme, Host, Port and Path",
-                "http://www.google.com:2000/a/b_c",
+        partitionReport("Valid Url with Scheme, Host and Path",
+                "http://www.google.com/a/b_c",
                 true);
 
-        partitionReport("Valid Url with Scheme, Host, Port, Path and Query",
-                "http://www.google.com:2000/a/b_c?d=50+me&e=hello",
+        partitionReport("Valid Url with Scheme, Host and Query",
+                "http://www.google.com?d=50+me&e=hello",
                 true);
 
-        partitionReport("Valid Url with Scheme, Host, Port, Path, Query and Fragment",
-                "http://www.google.com:2000/a/b_c?d=50+me&e=hello#test_me",
+        partitionReport("Valid Url with Scheme, Host and Fragment",
+                "http://www.google.com#test_me",
                 true);
 
         // BLOCK 2: Invalid Scheme

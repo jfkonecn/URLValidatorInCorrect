@@ -207,13 +207,33 @@ public class UrlValidatorTest extends TestCase {
     private void partitionTest()
     {
 
+        String goodScheme = "http://",
+                badScheme = "htp://",
+                goodHost = "www.google.com";
+
         // BLOCK 1: Valid Url
         partitionReport("Valid Url",
                 "http://www.google.com:2000/a/b_c?d=50+me&e=hello#test_me",
                 true);
 
-        partitionReport("Valid Url No Port",
-                "http://www.google.com/a/bc",
+        partitionReport("Valid Url with Scheme and Host",
+                "http://www.google.com",
+                true);
+
+        partitionReport("Valid Url with Scheme, Host and Port",
+                "http://www.google.com:2000",
+                true);
+
+        partitionReport("Valid Url with Scheme, Host, Port and Path",
+                "http://www.google.com:2000/a/b_c",
+                true);
+
+        partitionReport("Valid Url with Scheme, Host, Port, Path and Query",
+                "http://www.google.com:2000/a/b_c?d=50+me&e=hello",
+                true);
+
+        partitionReport("Valid Url with Scheme, Host, Port, Path, Query and Fragment",
+                "http://www.google.com:2000/a/b_c?d=50+me&e=hello#test_me",
                 true);
 
         // BLOCK 2: Invalid Scheme
